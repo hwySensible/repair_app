@@ -21,16 +21,16 @@ class _HomeRouteState extends State<HomeRoute> {
       },
       child: Icon(Icons.add),
       elevation: 0.0,
-      backgroundColor: Colors.lightBlue,
+      backgroundColor: Provider.of<ThemeModel>(context).theme,
       // shape: BeveledRectangleBorder(
       //   borderRadius: BorderRadius.circular(30.0)
       // ),
     );
 
     return Scaffold(
-      // appBar: AppBar(
-      //   title: Text(GmLocalizations.of(context).home),
-      // ),
+      appBar: AppBar(
+        title: Text(GmLocalizations.of(context).home),
+      ),
       // body: _buildBody(), // 构建主页面
       body: Container(
         child: Column(
@@ -61,7 +61,7 @@ class _HomeRouteState extends State<HomeRoute> {
    // 主页面头部分
   Widget _userInfoCard() {
     return new Container(
-      color: Colors.blue,
+      color: Provider.of<ThemeModel>(context).theme,
       child: new Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
@@ -109,9 +109,9 @@ class _HomeRouteState extends State<HomeRoute> {
   // 主页面list部分
   Widget _userInfoList() {
     List<Icon> iconItems = <Icon>[
-      new Icon(Icons.account_circle,color: Colors.blue), new Icon(Icons.check_circle_outline,color: Colors.blue),
-      new Icon(Icons.cloud_circle,color: Colors.blue), new Icon(Icons.pause_circle_filled,color: Colors.blue),
-      new Icon(Icons.person_pin_circle,color: Colors.blue), 
+      new Icon(Icons.account_circle,color: Provider.of<ThemeModel>(context).theme), new Icon(Icons.check_circle_outline,color: Provider.of<ThemeModel>(context).theme),
+      new Icon(Icons.cloud_circle,color: Provider.of<ThemeModel>(context).theme), new Icon(Icons.pause_circle_filled,color: Provider.of<ThemeModel>(context).theme),
+      new Icon(Icons.person_pin_circle,color: Provider.of<ThemeModel>(context).theme), 
     ];
     final List<String> entries = <String>['个人中心', '知识库', '未读工单', '维修记录', '数据统计'];
     final List<int> colorCodes = <int>[50, 50, 50, 50, 50];

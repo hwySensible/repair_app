@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
+import '../../index.dart';
+
 class RepairSend extends StatelessWidget {
 
   final String title;
@@ -233,7 +235,7 @@ class repairBody extends StatelessWidget {
                   onPressed: () {},
                   splashColor: Colors.blueGrey,
                   textColor: Colors.white,
-                  color: Colors.blue,
+                  color: Provider.of<ThemeModel>(context).theme,
                   padding: EdgeInsets.all(8.0),
                 ),
               )

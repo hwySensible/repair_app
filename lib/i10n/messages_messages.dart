@@ -24,7 +24,7 @@ class MessageLookup extends MessageLookupByLibrary {
   static _notInlinedMessages(_) => <String, Function> {
     "auto" : MessageLookupByLibrary.simpleMessage("Auto"),
     "cancel" : MessageLookupByLibrary.simpleMessage("cancel"),
-    "home" : MessageLookupByLibrary.simpleMessage("Github"),
+    "home" : MessageLookupByLibrary.simpleMessage("qltd-repair"),
     "language" : MessageLookupByLibrary.simpleMessage("Language"),
     "login" : MessageLookupByLibrary.simpleMessage("Login"),
     "logout" : MessageLookupByLibrary.simpleMessage("logout"),
