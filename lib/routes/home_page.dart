@@ -9,10 +9,26 @@ class HomeRoute extends StatefulWidget {
 class _HomeRouteState extends State<HomeRoute> {
   @override
   Widget build(BuildContext context) {
+    final Widget _floatingActionButton = FloatingActionButton(
+      onPressed: () {
+        Navigator.of(context).push(
+          // MaterialPageRoute(
+          //   builder: (BuildContext context) => RepairAdd(title: 'repair_add'),
+          // )
+        );
+      },
+      child: Icon(Icons.add),
+      elevation: 0.0,
+      backgroundColor: Colors.lightBlue,
+      // shape: BeveledRectangleBorder(
+      //   borderRadius: BorderRadius.circular(30.0)
+      // ),
+    );
+
     return Scaffold(
-      appBar: AppBar(
-        title: Text(GmLocalizations.of(context).home),
-      ),
+      // appBar: AppBar(
+      //   title: Text(GmLocalizations.of(context).home),
+      // ),
       // body: _buildBody(), // 构建主页面
       body: Container(
         child: Column(
@@ -29,16 +45,126 @@ class _HomeRouteState extends State<HomeRoute> {
         ),
       ),
       drawer: MyDrawer(), //抽屉菜单
+      // 底部按钮部分开始
+      floatingActionButton: _floatingActionButton,
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      bottomNavigationBar: BottomAppBar(
+        child: Container(
+          height: 50.0,
+        ),
+        shape: CircularNotchedRectangle(),
+      ),
     );
   }
-  Widget _userInfoCard () {
-    return Container();
+   // 主页面头部分
+  Widget _userInfoCard() {
+    return new Container(
+      color: Colors.blue,
+      child: new Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          // Scaffold(
+          //   body: Center(
+          //     child: Text('Press the extended button below!'),
+          //   ),
+          //   floatingActionButton: _floatingActionButtonExtended,
+            
+          // )
+          new Container(
+            // margin: const EdgeInsets.all(10.0),
+            // decoration: new BoxDecoration(
+            //     color: GlobalConfig.dark == true ? Colors.white10 : new Color(0xFFF5F5F5),
+            //     borderRadius: new BorderRadius.all(new Radius.circular(6.0))
+            // ),
+            child: new FlatButton(
+                onPressed: (){},
+                child: new Container(
+                  child: new ListTile(
+                    leading: new Container(
+                      child: new CircleAvatar(
+                          backgroundImage: new NetworkImage("https://pic1.zhimg.com/v2-ec7ed574da66e1b495fcad2cc3d71cb9_xl.jpg"),
+                          radius: 20.0
+                      ),
+                    ),
+                    title: new Container(
+                      margin: const EdgeInsets.only(bottom: 2.0),
+                      child: new Text("learner"),
+                    ),
+                    subtitle: new Container(
+                      margin: const EdgeInsets.only(top: 2.0),
+                      child: new Text("济南分公司"),
+                    ),
+                  ),
+                )
+            ),
+          ),
+          // floatactionbutton
+        ],
+      ),
+    );
   }
 
-  Widget _userInfoList () {
-    return Container(
+  // 主页面list部分
+  Widget _userInfoList() {
+    List<Icon> iconItems = <Icon>[
+      new Icon(Icons.account_circle,color: Colors.blue), new Icon(Icons.check_circle_outline,color: Colors.blue),
+      new Icon(Icons.cloud_circle,color: Colors.blue), new Icon(Icons.pause_circle_filled,color: Colors.blue),
+      new Icon(Icons.person_pin_circle,color: Colors.blue), 
+    ];
+    final List<String> entries = <String>['个人中心', '知识库', '未读工单', '维修记录', '数据统计'];
+    final List<int> colorCodes = <int>[50, 50, 50, 50, 50];
+    const size = FontWeight.w500; // 定义一个字体类型
+    return new Container(
+      child: ListView.separated(
+      padding: const EdgeInsets.all(8.0),
+      itemCount: entries.length,
+      itemBuilder: (BuildContext context, int index) {
+        return Container(
+          height: 65,
+          color: Colors.amber[colorCodes[index]],
+          child: Center(
+            child: FlatButton(
+              padding: EdgeInsets.all(6.0),
+              onPressed: () {
+                // Navigator.of(context).push(
+                //   MaterialPageRoute(
+                //     builder: (BuildContext context) => RepairList(title: '故障信息列表'),
+                //   )
+                // );
+              },
+              splashColor: Colors.white70,
+              child: ListTile(
+              title: Text('${entries[index]}', style: TextStyle(fontWeight: size),),
+              leading: iconItems[index],
+              trailing: Container(
+                child:
+                Chip(
+                  avatar: CircleAvatar(
+                    backgroundColor: index == 2 ? Colors.red.shade500 : Colors.amber[50],
+                    child: index == 2 ? Text('2') : Text(''),
+                  ),
+                  label: Icon(Icons.keyboard_arrow_right),
+                  backgroundColor: Colors.amber[50],
+                )
+              ),
+              // onTap: () { // 点击跳转
+              //   Navigator.of(context).push(
+              //     MaterialPageRoute(
+              //       builder: (BuildContext context) => RepairList(title: '故障信息列表'),
+              //     )
+              //   );
+              // },
+            )
+            )
+            
+          )
+        );
+      },
+      separatorBuilder: (BuildContext context, int index) => const Divider()
+    ),
     );
   }
+  
   Widget _buildBody() {
     UserModel userModel = Provider.of<UserModel>(context);
     if (!userModel.isLogin) {
