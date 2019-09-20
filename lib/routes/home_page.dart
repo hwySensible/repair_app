@@ -1,3 +1,4 @@
+import 'package:repair_app/widgets/repair/repair_add.dart';
 import '../index.dart';
 import 'package:flukit/flukit.dart';
 
@@ -11,11 +12,11 @@ class _HomeRouteState extends State<HomeRoute> {
   Widget build(BuildContext context) {
     final Widget _floatingActionButton = FloatingActionButton(
       onPressed: () {
-        // Navigator.of(context).push(
-        //   // MaterialPageRoute(
-        //   //   builder: (BuildContext context) => RepairAdd(title: 'repair_add'),
-        //   // )
-        // );
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (BuildContext context) => RepairAdd(title: '故障报修'),
+          )
+        );
       },
       child: Icon(Icons.add),
       elevation: 0.0,
