@@ -1,4 +1,5 @@
 import 'package:repair_app/widgets/repair/repair_add.dart';
+import 'package:repair_app/widgets/repair/repair_list.dart';
 import '../index.dart';
 import 'package:flukit/flukit.dart';
 
@@ -127,11 +128,11 @@ class _HomeRouteState extends State<HomeRoute> {
             child: FlatButton(
               padding: EdgeInsets.all(6.0),
               onPressed: () {
-                // Navigator.of(context).push(
-                //   MaterialPageRoute(
-                //     builder: (BuildContext context) => RepairList(title: '故障信息列表'),
-                //   )
-                // );
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (BuildContext context) => RepairList(title: '故障信息列表'),
+                  )
+                );
               },
               splashColor: Colors.white70,
               child: ListTile(
