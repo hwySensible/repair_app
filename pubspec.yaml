@@ -10,7 +10,7 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
-  intl: ^0.15.7
+  intl: ^0.16.0
   # 网络请求
   dio: ^2.2.1
   provider: ^3.0.0+1
@@ -20,7 +20,11 @@ dependencies:
   fluttertoast: ^3.0.3
   flukit: ^1.0.2
   json_annotation: ^3.0.0
-
+  #相机相册功能
+  image_picker: ^0.6.1+4
+  #图片放大拖拽
+  flutter_drag_scale:
+    git: https://github.com/LiuC520/flutter_drag_scale.git
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.2
