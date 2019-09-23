@@ -1,10 +1,12 @@
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';//导折叠面板的包
-import 'package:repair_app/widgets/repair/repair_selection.dart';
+//import 'package:flutter/rendering.dart';//导折叠面板的包
+//import 'package:repair_app/widgets/repair/repair_selection.dart';//选择类型页面
 import 'package:image_picker/image_picker.dart';//从相册里面选择图片或者拍照获取照片
 import 'package:flutter_drag_scale/flutter_drag_scale.dart';
+import 'package:http/http.dart' as http;
 class RepairAdd extends StatelessWidget {
 
   final String title;
@@ -30,7 +32,13 @@ class RepairBody extends StatefulWidget {
 }
 
 class _RepairBodyState extends State<RepairBody> {
-bool _isExpanded = false;//折叠面板闭合控制 默认全部关闭
+    bool _isExpanded = false;//折叠面板闭合控制 默认全部关闭
+    //表单验证
+    GlobalKey globalKey = new GlobalKey<FormState>();
+
+  
+
+
     List _imageList = []; //图片列表
     int _photoIndex = 0; //选择拍照还是相册的索引
 
@@ -38,6 +46,8 @@ bool _isExpanded = false;//折叠面板闭合控制 默认全部关闭
      {"name": "拍照", "icon": Icon(Icons.camera_alt)},
      {"name": "相册", "icon": Icon(Icons.photo_library)}
     ];
+    
+  
 
     //拍照或者相册选取图片，只能单选
     Future _getImage() async {
@@ -89,19 +99,20 @@ bool _isExpanded = false;//折叠面板闭合控制 默认全部关闭
       padding: const EdgeInsets.all(8.0),
       children: <Widget>[
         Container(
-          child: Text(
+          /*child: Text(
             '基本信息',
             textAlign: TextAlign.start,
-          ),
+          ),*/
         ),
         Container(
           margin: const EdgeInsets.all(10.0),
           color: Colors.white,
           child: Form(
+            key: globalKey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                TextFormField(
+                /*TextFormField(
                   decoration: InputDecoration(
                     // icon: Icon(Icons.person),
                     hintText: '请输入故障名称',
@@ -126,9 +137,34 @@ bool _isExpanded = false;//折叠面板闭合控制 默认全部关闭
                     }
                     return null;
                   },
+                ),*/
+                //基本信息
+                Card(
+                  child: ListTile(
+                    leading: ClipOval(
+                      child: Image.asset("imgs/logo_dark.png",width: 45),
+                    ),
+                    title: Text('济南东收费站  张三',
+                    style: TextStyle(
+                      fontSize: 14.0,
+                    )),
+                    subtitle: Text(
+                      '电话：13678826101',
+                      style: TextStyle(
+                        fontSize: 12.0
+                      ),
+                    ),
+                    trailing: IconButton(
+                      icon:Icon(Icons.phone,color: Colors.blue,size: 30),
+                      onPressed: (){},
+                      ),
+                    isThreeLine: true,
+                    //selected: true,
+                  ),
                 ),
+
                  //选择类型
-                RaisedButton(
+                /*RaisedButton(
                   color: Colors.blue,
                   highlightColor: Colors.blue[700],
                   colorBrightness: Brightness.dark,
@@ -142,7 +178,8 @@ bool _isExpanded = false;//折叠面板闭合控制 默认全部关闭
                       return SelectionRoute();
                     }));
                   },
-                ),
+                ),*/
+
                 /*TextFormField(
                   decoration: InputDecoration(
                     // icon: Icon(Icons.person),
@@ -156,42 +193,63 @@ bool _isExpanded = false;//折叠面板闭合控制 默认全部关闭
                     return null;
                   },
                 ),*/
-              ],
-            ),
-          ),
-        ),
-        Container(
-          child: Text(
-            '故障描述',
-            textAlign: TextAlign.start,
-          ),
-        ),
-        Container(
-          margin: const EdgeInsets.all(10.0),
-          color: Colors.white,
-          child: Form(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                TextFormField(
-                  decoration: InputDecoration(
-                    // icon: Icon(Icons.person),
-                    hintText: '请输入故障描述信息',
-                    labelText: '故障描述'
-                  ),
-                  validator: (value) {
-                    if (value.isEmpty) {
-                      return 'Please enter some text';
-                    }
-                    return null;
-                  },
+
+              Container(
+                child: Text(
+                  '故障描述',
+                  textAlign: TextAlign.start,
+                ),
+              ),
+              // Container(
+              //   margin: const EdgeInsets.all(10.0),
+              //   color: Colors.white,
+              //   child: Form(
+              //     child: Column(
+              //       crossAxisAlignment: CrossAxisAlignment.start,
+              //       children: <Widget>[
+                      TextFormField(
+                        decoration: InputDecoration(
+                          // icon: Icon(Icons.person),
+                          hintText: '请输入故障描述信息',
+                          labelText: '*故障描述'
+                        ),
+                        validator: (value) {
+                          return value.trim().length > 0 ? null : "*故障描述不能为空";
+                        },
+                      ),
+              //       ],
+              //     ),
+              //   ),
+              // ),
+              Container(
+                margin: EdgeInsets.fromLTRB(15, 15, 0, 20),  
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,                                                   
+                  children: <Widget>[
+                      //展示选择的图片
+                  _imageList.isNotEmpty ? Wrap(
+                      spacing: 25.0,
+                      children: _getImageList()
+                    ) : Container(
+                      child: new Text("上传图片"),
+                      margin: const EdgeInsets.fromLTRB(0, 0, 0, 5.0),
+                    ),
+                    FloatingActionButton(
+                      child: Icon(Icons.add_a_photo),
+                      tooltip: "上传图片",
+                          onPressed: () => _getActionSheet(),                                      
+                          foregroundColor: Colors.white,
+                    ),                           
+                  ],
+                ),
                 ),
               ],
             ),
           ),
         ),
+        
         //折叠面板
-        ExpansionPanelList(
+        /*ExpansionPanelList(
            children: <ExpansionPanel>[
              ExpansionPanel(
                headerBuilder:(context,isExpanded){
@@ -293,7 +351,7 @@ bool _isExpanded = false;//折叠面板闭合控制 默认全部关闭
               });
            },
            animationDuration: kThemeAnimationDuration,
-        ),
+        ),*/
         /*Container(
           margin: const EdgeInsets.all(10.0),
           color: Colors.white,
@@ -374,7 +432,13 @@ bool _isExpanded = false;//折叠面板闭合控制 默认全部关闭
               Expanded(
                 child: FlatButton(
                   child: Text('提交'),
-                  onPressed: () {},
+                  onPressed: () {
+                    //  if((globalKey.currentState as FormState).validate()){
+                    //    print("验证通过");
+                    //    //提交描述、（如果有位置信息、选择了类型提交类型）、登录人id、已报修（status=0）、时间
+                    //     await http.post
+                    //  }
+                  },
                   splashColor: Colors.blueGrey,
                   textColor: Colors.white,
                   color: Colors.blue,

@@ -3,8 +3,8 @@ import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'index.dart';
 
-void main() => Global.init().then((e) => runApp(MyApp()));
-
+//void main() => Global.init().then((e) => runApp(MyApp()));
+void main() => runApp(MyApp());
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
