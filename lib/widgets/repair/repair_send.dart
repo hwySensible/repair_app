@@ -225,7 +225,7 @@ class repairBody extends StatelessWidget {
             ),
           ),
         Container(
-          padding: EdgeInsets.all(10.0),
+          padding: EdgeInsets.all(8.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
